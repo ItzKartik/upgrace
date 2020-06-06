@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}
+    {% csrf_token %}
+    <style>
+    .fa-twitter:hover{
+        transition: ease 1s;
+        color: #00b5ff !important;
+    }
+    .fa-facebook:hover{
+        transition: ease 1s;
+        color: #005eff !important;
+    }
+    .fa-linkedin:hover{
+        transition: ease 1s;
+        color: blue !important;
+    }
+    a:hover{
+        text-decoration: none;
+    }
+    .progress{
+        height: 30px;
+        border-radius: 50px;
+        background-color: rgba(225, 225, 225, 0.5);
+    }
+    .progress-bar{
+        padding: 20px 0px;
+        background-color: #ff253a;
+    }
+    .progress-bar h3{
+        font-size: 1.3rem;
+        color: white;
+        font-weight: 700;
+        font-family: "Josefin Sans";
+    }
+    .txt_grad{
+        color: #4A00E0;
+    }
+    @media(max-width: 1200px){
+        .txt_row{
+            text-align: center;
+            margin: -30px 0px 0px 0px !important;
+            margin-top: -30px !important;
+        }
+    }
+    @media(max-width: 500px){
+        .img2{
+            width: 320px !important;
+        }
+        .fp{
+            height: 300px !important;
+        }
+        .overlay{
+            height: 500px !important;
+        }
+        .col-md-4{
+            margin: 5px !important;
+        }
+        #bulk{
+            display: none;
+        }
+        .img1{
+            margin-top: 200px !important;
+        }
+        .txt_row{
+            text-align: center;
+            margin: 0px !important;
+        }
+    }
+    @media(max-width: 1025px){
+        .col-md-4{
+            margin: 5px !important;
+        }
+        #bulk{
+            display: none;
+        }
+        .img1{
+            margin-top: 200px !important;
+        }
+        .txt_row{
+            text-align: center;
+            margin: 0px !important;
+        }
+    }
+    .btn{
+        background: linear-gradient(to right, #4A00E0, #8E2DE2);
+        border: 2px solid white;
+        border-radius: 50px;
+        width: 150px;
+        color: white;
+        padding: 10px !important;
+    }
+    .btn:hover, .btn:focus{
+        transition: ease 1s;
+        border: 2px solid white;
+        outline: none;
+        color: black;
+    }
+    .btn:focus,.btn:active {
+        outline: none !important;
+        box-shadow: none;
+    }
+    .count1, .count2, .count3, .count4{
+        font-size: 2rem;
+        color: white;
+        font-weight: 700;
+    }
+    .c1:hover, .c2:hover, .c3:hover{
+        transition: ease 1s;
+        cursor: pointer;
+        border: 2px solid blue;
+    }
+    div.overlay{
+        z-index: 2;
+        width: 100%;
+        height: 700px;
+        position: absolute;
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.15);
+        {#background-color: rgba(206, 206, 206, 0.15);#}
+        backdrop-filter: blur(12px);
+        color: #fff;
+    }
+    .fc1{
+        border: 2px solid black;
+        width: 100%;
+        height: 70px;
+        color: #4A00E0;
+        {#background: linear-gradient(to right, #4A00E0, #8E2DE2);#}
+        background: transparent;
+    }
+    .fc1::placeholder{
+        color: black;
+        font-size: 1rem;
+    }
+    .form-group{
+        background: transparent;
+    }
+    .question_con{
+        padding: 20px; background: white; border-radius: 5px;
+        margin: 5px;
+        font-size: 20px;
+        font-family: 'Work Sans';
+    }
+    .question_con p{
+        font-size: 15px;
+    }
+    .question_con h4{
+        font-size: 20px;
+    }
+    .fa{
+        cursor: pointer;
+    }
+    .fa-chevron-down, .fa-chevron-up{
+        color: #4A00E0;
+    }
+    .borderless td{
+        border: none;
+    }
+    </style>
+    <!--Main Part-->
+    <div class="animated fadeIn fp mx-auto text-center justify-content-center" style="height: 500px; color: black; margin: 150px 0px 150px 0px; left: 0; position: relative; z-index: 9;" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="50">
+        <div class="col-sm-12 first_part mx-auto text-center">
+            <h2 style="color: red;" class="error_txt"></h2>
+            <form method="post" class="col-md-6 followed mx-auto text-center" style="top: 120px;">{% csrf_token %}
+                <div class="form-group mr-auto text-left">
+                    <label for="uname"></label>
+                    <input required id="uname" name="username" style="padding: 25px; border-radius: 50px" class="form-control fc1" type="text" placeholder="Type Your Insta Username"/>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">GetFollowers</button>
+            </form>
+        </div>
+        <div class="col-sm-12 progress-part" style="left: 0; display: none">
+            <h1 class="follow_count"></h1>
+            <h1 class="update_text"></h1>
+            <div class="col-md-6 mx-auto text-center" style="padding: 40px;">
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" id="myBar" role="progressbar"
+                  aria-valuenow="5" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    <h3 class="progress-count"></h3>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 wantmore-part" style="left: 0; display: none;">
+            <h1 style="color: #4A00E0; font-weight: 700;" class="you_got"></h1><br>
+            <div class="col-md-7 mx-auto text-center" style="padding: 40px;">
+                <h1>Want More Genuine Followers</h1><br>
+                <button onclick="check_for_more();" class="btn_more_followers btn btn-primary">Click Here</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    function check_for_more() {
+        if ((parseInt($.cookie('times')) % 2)==0){
+            window.location.replace('{% url 'insta_automation:index' %}');
+        }
+        else if ((parseInt($.cookie('times')) % 5)==0){
+            console.log("5 times");
+            // Share now
+        }
+        else{
+            get_followers();
+        }
+    }
+    var c, del, gap;
+    var count1 = $('.count1');
+    var count2 = $('.count2');
+    var count3 = $('.count3');
+    var count4 = $('.count4');
+    function container_works(first_con, second_con) {
+        first_con.fadeOut();
+        second_con.fadeIn();
+    }
+    function show(cls){
+        cls.css({'display':'block'});
+    }
+
+    function hide(cls){
+        cls.css({'display':'none'});
+    }
+
+    $(document).ready(function () {
+        if (!!$.cookie('username')){
+            container_works(first_part, progress_part);
+            console.log($.cookie('username'));
+            get_followers();
+        }
+        else{
+            console.log('no insta_username found');
+        }
+    });
+
+    var i = 0;
+    var t = 0;
+    var first_part =  $('.first_part');
+    var progress_part = $('.progress-part');
+    var more_part = $('.wantmore-part');
+    var ad_part = $('.ad-part');
+
+    $('.followed').on('submit', function (e) {
+        e.preventDefault();
+
+        $('.btn').prop("disabled", true);
+        let form_data = $('#uname').val();
+        var url_1 = 'https://www.instagram.com/' + form_data;
+        $.cookie('username', form_data);
+        $.cookie('url', url_1);
+
+        $.ajax({
+            url: '{% url 'insta_automation:follow_count' %}',
+            type: 'POST',
+            data: {
+                url_1: url_1,
+                username: form_data,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                container_works(first_part, progress_part);
+                $.cookie('flw_count', data);
+                $('.follow_count').html('');
+                $('.follow_count').append("Your Follow Count is "+data);
+                get_followers();
+            },
+            error: function (error) {
+                console.log(error);
+                container_works(progress_part, first_part);
+                error_txt()
+            }
+        });
+    });
+
+    function move() {
+      if (i == 0) {
+        i = 1;
+        var elem = document.getElementById("myBar");
+        var count = $(".progress-count");
+        var width = 0;
+        var id = setInterval(frame, 400);
+        function frame() {
+          if (width >= 100) {
+            count.html('');
+            count.html(width + "%");
+            clearInterval(id);
+            i = 0;
+          }else {
+              count.html('');
+              count.html(width + "%");
+              width = parseInt(width) + 4;
+              elem.style.width = width + "%";}
+        }
+      }
+    }
+
+
+    function get_followers() {
+        move();
+        let text = ['Bot Reached', 'Your Acc. Has Been Followed', 'Closing Bot...'];
+        var count = 0;
+        function changeText() {
+            if (count === 3){
+                clearInterval(updating);
+            }
+            else{
+                $('.updated_text').fadeOut('slow');
+                $(".update_text").html('<h3 class="updated_text" style="color: #4A00E0; font-weight: 700;">'+ text[count] +'</h3>');
+                setTimeout(function () {
+                    count < 3 ? count++ : count = 0;
+                }, 1000);
+            }
+        }
+        var updating = setInterval(changeText, 1000);
+
+        $('.btn').prop("disabled", false);
+        $.ajax({
+            url: '{% url 'insta_automation:follow_him' %}',
+            type: 'POST',
+            data: {
+                url_1: $.cookie('url'),
+                username: $.cookie('username'),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                container_works(progress_part, more_part);
+                if (!!$.cookie('times')){
+                    $.cookie('times', parseInt($.cookie('times'))+1);
+                    window.location.replace('{% url 'insta_automation:index' %}');
+                }
+                else{
+                    $.cookie('times', 1);
+                }
+                $('.you_got').html('');
+                $('.you_got').append(data);
+                $('.follow_count').html('');
+                $('.follow_count').append("Your Follow Count is "+(parseInt($.cookie('flw_count'))+1));
+            },
+            error: function (error) {
+                console.log(error);
+                container_works(progress_part, first_part);
+                error_txt()
+            }
+        });
+    }
+    function error_txt() {
+        $('.error_txt').html('');
+        $('.error_txt').append('Network Problem... Please Try Again Later !!!')
+    }
+    </script>
+{% endblock navbar %}
