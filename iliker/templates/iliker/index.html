@@ -212,10 +212,10 @@
     <div class="working_part fp mx-auto text-center justify-content-center" style="height: 500px; color: black; margin: 150px 0px 150px 0px; left: 0; position: relative; z-index: 9;" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="50">
         <div class="col-sm-12 first_part mx-auto text-center">
             <h2 style="color: red;" class="error_txt"></h2>
-            <form method="post" class="col-md-6 followed mx-auto text-center" style="top: 120px;">{% csrf_token %}
+            <form method="post" class="col-md-6 iliker mx-auto text-center" style="top: 120px;">{% csrf_token %}
                 <div class="form-group mr-auto text-left">
-                    <label for="uname"></label>
-                    <input required id="uname" name="username" style="padding: 25px; border-radius: 50px" class="form-control fc1" type="text" placeholder="Type Your Insta Username"/>
+                    <label for="post_url"></label>
+                    <input required id="post_url" name="username" style="padding: 25px; border-radius: 50px" class="form-control fc1" type="text" placeholder="Type Your Insta Username"/>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">GetFollowers</button>
@@ -295,38 +295,6 @@
     var more_part = $('.wantmore-part');
     var ad_part = $('.ad-part');
 
-    $('.followed').on('submit', function (e) {
-        e.preventDefault();
-
-        $('.btn').prop("disabled", true);
-        let form_data = $('#uname').val();
-        var url_1 = 'https://www.instagram.com/' + form_data;
-        $.cookie('username', form_data);
-        $.cookie('url', url_1);
-
-        $.ajax({
-            url: "{% url 'insta_automation:follow_count' %}",
-            type: 'POST',
-            data: {
-                url_1: url_1,
-                username: form_data,
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-            },
-            success: function (data) {
-                container_works(first_part, progress_part);
-                $.cookie('flw_count', data);
-                $('.follow_count').html('');
-                $('.follow_count').append("Your Follow Count is "+data);
-                get_followers();
-            },
-            error: function (error) {
-                console.log(error);
-                container_works(progress_part, first_part);
-                error_txt()
-            }
-        });
-    });
-
     function move() {
       if (i == 0) {
         i = 1;
@@ -349,45 +317,40 @@
       }
     }
 
-
-    function get_followers() {
+    $('.iliker').on('submit', function(e){
+        e.preventDefault();
+        get_likes()
+    });
+    function get_likes() {
         move();
-        let text = ['Bot Reached', 'Your Acc. Has Been Followed', 'Closing Bot...'];
+        let text = ['Bot Reached', 'Your Pic Got A Like', 'Your Pic Got A Comment', 'Closing Bot...'];
         var count = 0;
         function changeText() {
-            if (count === 3){
+            if (count === 4){
                 clearInterval(updating);
             }
             else{
                 $('.updated_text').fadeOut('slow');
                 $(".update_text").html('<h3 class="updated_text" style="color: #4A00E0; font-weight: 700;">'+ text[count] +'</h3>');
                 setTimeout(function () {
-                    count < 3 ? count++ : count = 0;
+                    count < 4 ? count++ : count = 0;
                 }, 1000);
             }
         }
+        let form_data = $('#post_url').val();
         var updating = setInterval(changeText, 1000);
             $('.btn').prop("disabled", false);
             $.ajax({
-                url: "{% url 'insta_automation:follow_him' %}",
+                url: "{% url 'iliker:iliker_url' %}",
                 type: 'POST',
                 data: {
-                    url_1: $.cookie('url'),
-                    username: $.cookie('username'),
+                    url_1: form_data,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function (data) {
                     container_works(progress_part, more_part);
-                    if (!!$.cookie('times')){
-                        console.log($.cookie('times', parseInt($.cookie('times'))+1));
-                    }
-                    else{
-                        $.cookie('times', 1);
-                    }
                     $('.you_got').html('');
                     $('.you_got').append(data);
-                    $('.follow_count').html('');
-                    $('.follow_count').append("Your Follow Count is "+(parseInt($.cookie('flw_count'))+1));
                 },
                 error: function (error) {
                     console.log(error);
@@ -395,43 +358,7 @@
                     error_txt()
                 }
             });
-        }
-
-
-    function check_for_more() {
-        if(parseInt($.cookie('times')) >= 19){
-            window.location.replace("{% url 'insta_automation:index' %}");
-        }
-        else if ((parseInt($.cookie('times')) % 2)==0){
-            window.location.replace("{% url 'insta_automation:index' %}");
-        }
-        else if ((parseInt($.cookie('times')) % 5)==0){
-            console.log("5 times");
-            $('.working_part').hide();
-            $('.share_now_con').fadeIn();
-        }
-        else{
-            get_followers();
-        }
     }
-    $(document).ready(function () {
-        if(parseInt($.cookie('times')) >= 19){
-            console.log("Your Quota Completed !!!");
-        }
-        else if (!!$.cookie('username')){
-            if(parseInt($.cookie('shared'))===1){
-                container_works(first_part, progress_part);
-                get_followers();
-            }
-            else{
-                $('.share_now_con').fadeIn();
-                $('.working_part').hide();
-            }
-        }
-        else{
-            console.log('no insta_username found');
-        }
-    });
     function error_txt() {
         $('.error_txt').html('');
         $('.error_txt').append('Network Problem... Please Try Again Later !!!')

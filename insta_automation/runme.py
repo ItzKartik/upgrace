@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 driver_urls = []
 session_ids = []
 drivers = []
-uname_block = ['5arohisingh', 'paryan456']
+uname_block = ['5arohisingh']
 if session_ids != []:
     pass
 else:
