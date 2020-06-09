@@ -7,5 +7,5 @@ app_name = 'iliker'
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='iliker/index.html'), name='index'),
-    path('likencomment/', views.iliker.as_view(), name='iliker_url'),
+    path('likeit/', views.iliker.as_view(), name='iliker_url'),
 ]

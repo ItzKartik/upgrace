@@ -50,14 +50,14 @@ uname_block = ['5arohisingh']
 #         ]
 
 
-class iliker(View):
+class icommenter(View):
     template_name = 'index.html'
 
     def post(self, *args, **kwargs):
         url = self.request.POST['url_1']
         self.url = url
-        return HttpResponse("Done...")
-        # return self.give_driver_id()
+        # return HttpResponse("Done...")
+        return self.give_driver_id()
 
     def give_driver_id(self):
         try:
@@ -79,20 +79,16 @@ class iliker(View):
                 indexofid = uname_block.index(left_username)
         self.left_username = left_username
         self.indexofid = indexofid
-        return self.like()
+        return self.commentit()
 
-    def like(self):
+    def commentit(self):
         driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
         driver.close()
         driver.session_id = session_ids[self.indexofid]
         driver.get(self.url)
         sleep(1)
-        driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div[1]/article/div[2]/section[1]/span[1]/button').click()
-        return HttpResponse("Your Post Just Got Liked")
-
-    # def commentit(self, driver):
-    #     comments = ['Cool Man', 'Awesome']
-    #     comment = comments[randint(0, len(comments))]
-    #     ctextarea = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="react-root"]/section/main/div/div[1]/article/div[2]/section[3]/div/form/textarea')))
-    #     ActionChains(driver).move_to_element(ctextarea).click(ctextarea).send_keys(comment).send_keys(Keys.ENTER).perform()
-    #     return sleep(2)
+        comments = ['Cool Man', 'Awesome']
+        comment = comments[randint(0, 1)]
+        ctextarea = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="react-root"]/section/main/div/div[1]/article/div[2]/section[3]/div/form/textarea')))
+        ActionChains(driver).move_to_element(ctextarea).click(ctextarea).send_keys(comment).send_keys(Keys.ENTER).perform()
+        return HttpResponse("Your Post Just Got Commented")

@@ -13,14 +13,14 @@ from django.views.generic import View
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
-# from insta_automation import runme
+from insta_automation import runme
 
-# driver_urls = runme.driver_urls
-# session_ids = runme.session_ids
-# uname_block = runme.uname_block
-driver_urls = []
-uname_block = []
-session_ids = []
+driver_urls = runme.driver_urls
+session_ids = runme.session_ids
+uname_block = runme.uname_block
+# driver_urls = []
+# uname_block = []
+# session_ids = []
 
 
 class Followers(View):
