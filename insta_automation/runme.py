@@ -4,12 +4,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 from webdriver_manager.chrome import ChromeDriverManager
 
-chromeOptions = Options()
-chromeOptions.add_argument("--headless")
-chromeOptions.add_argument('--disable-gpu')
-chromeOptions.add_argument("--start-maximized")
-chromeOptions.add_argument("--disable-dev-sha-usage")
-chromeOptions.add_argument("--no-sandbox")
+# chromeOptions = Options()
+# chromeOptions.add_argument("--headless")
+# chromeOptions.add_argument('--disable-gpu')
+# chromeOptions.add_argument("--start-maximized")
+# chromeOptions.add_argument("--disable-dev-sha-usage")
+# chromeOptions.add_argument("--no-sandbox")
 
 driver_urls = []
 session_ids = []
