@@ -6,9 +6,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 chromeOptions = Options()
 chromeOptions.add_argument("--headless")
-chromeOptions.add_argument('--disable-gpu')
-chromeOptions.add_argument("--start-maximized")
-chromeOptions.add_argument("--disable-dev-sha-usage")
+# chromeOptions.add_argument('--disable-gpu')
+chromeOptions.add_argument("window-size=768,1366")
+# chromeOptions.add_argument("--disable-dev-sha-usage")
 chromeOptions.add_argument("--no-sandbox")
 
 driver_urls = []
@@ -19,8 +19,8 @@ if session_ids != []:
     pass
 else:
     for i in uname_block:
-        x = webdriver.Chrome(ChromeDriverManager().install())
-        x.maximize_window()
+        x = webdriver.Chrome(ChromeDriverManager().install(), options=chromeOptions)
+        # x.maximize_window()
         drivers.append(x)
         driver_urls.append(x.command_executor._url)
         session_ids.append(x.session_id)
