@@ -18,15 +18,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support import ui
 
-# from insta_automation import runme
-# driver_urls = runme.driver_urls
-# session_ids = runme.session_ids
-# uname_block = runme.uname_block
+from insta_automation import runme
+driver_urls = runme.driver_urls
+session_ids = runme.session_ids
+uname_block = runme.uname_block
 
-driver_urls = []
-uname_block = []
-session_ids = []
-uname_block = ['5arohisingh']
+# driver_urls = []
+# uname_block = []
+# session_ids = []
+# uname_block = ['5arohisingh']
 
 # uname = [
 #             'kalmesh.gpt123',
@@ -57,8 +57,8 @@ class iliker(View):
     def post(self, *args, **kwargs):
         url = self.request.POST['url_1']
         self.url = url
-        return HttpResponse("Done...")
-        # return self.give_driver_id()
+        # return HttpResponse("Done...")
+        return self.give_driver_id()
 
     def give_driver_id(self):
         try:

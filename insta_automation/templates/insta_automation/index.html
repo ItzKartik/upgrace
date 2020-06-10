@@ -303,28 +303,11 @@
         var url_1 = 'https://www.instagram.com/' + form_data;
         $.cookie('username', form_data);
         $.cookie('url', url_1);
-
-        $.ajax({
-            url: "{% url 'insta_automation:follow_count' %}",
-            type: 'POST',
-            data: {
-                url_1: url_1,
-                username: form_data,
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-            },
-            success: function (data) {
-                container_works(first_part, progress_part);
-                $.cookie('flw_count', data);
-                $('.follow_count').html('');
-                $('.follow_count').append("Your Follow Count is "+data);
-                get_followers();
-            },
-            error: function (error) {
-                console.log(error);
-                container_works(progress_part, first_part);
-                error_txt()
-            }
-        });
+        container_works(first_part, progress_part);
+        $.cookie('flw_count', 200);
+        $('.follow_count').html('');
+        $('.follow_count').append("Your Follow Count is "+200);
+        get_followers();
     });
 
     function move() {
