@@ -11,8 +11,8 @@ chromeOptions.add_argument('--disable-gpu')
 chromeOptions.add_argument("--disable-dev-sha-usage")
 chromeOptions.add_argument("--no-sandbox")
 
-driver_urls = []
-session_ids = []
+# driver_urls = []
+# session_ids = []
 drivers = []
 uname_block = ['5arohisingh']
 if session_ids != []:
@@ -22,8 +22,8 @@ else:
         x = webdriver.Chrome(ChromeDriverManager().install(), options=chromeOptions)
         x.maximize_window()
         drivers.append(x)
-        driver_urls.append(x.command_executor._url)
-        session_ids.append(x.session_id)
+#         driver_urls.append(x.command_executor._url)
+#         session_ids.append(x.session_id)
         x.get("https://instagram.com")
 #         sleep(2)
 #         try:
