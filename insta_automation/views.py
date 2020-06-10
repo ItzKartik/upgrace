@@ -15,8 +15,9 @@ from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
 from insta_automation import runme
-driver_urls = runme.driver_urls
-session_ids = runme.session_ids
+# driver_urls = runme.driver_urls
+# session_ids = runme.session_ids
+drivers = runme.drivers
 uname_block = runme.uname_block
 # driver_urls = []
 # uname_block = []
@@ -60,9 +61,10 @@ class Followers(View):
         return self.follow_him()
 
     def follow_him(self):
-        driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
-        driver.close()
-        driver.session_id = session_ids[self.indexofid]
+#         driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
+#         driver.close()
+#         driver.session_id = session_ids[self.indexofid]
+        driver = drivers[self.indexofid]
         driver.get(self.url)
         try:
             sleep(1)
