@@ -15,7 +15,7 @@ chromeOptions.add_argument("--no-sandbox")
 # session_ids = []
 drivers = []
 uname_block = ['5arohisingh']
-if session_ids != []:
+if drivers != []:
     pass
 else:
     for i in uname_block:
