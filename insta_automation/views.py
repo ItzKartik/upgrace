@@ -30,13 +30,14 @@ class Followers(View):
     def post(self, *args, **kwargs):
         username = self.request.POST['username']
         url = self.request.POST['url_1']
+        u = ''
         try:
-            models.used_by.objects.get(user=username)
+            u = models.used_by.objects.get(user=username)
         except ObjectDoesNotExist:
             u = models.used_by.objects.create(user=username)
-            self.user = u
             for i in models.insta_ids.objects.all():
                 models.left_ids.objects.create(link=u, username=i.username)
+        self.user = u
         self.username = username
         self.url = url
         #return HttpResponse("Done !!!")
