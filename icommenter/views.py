@@ -19,9 +19,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support import ui
 
 from insta_automation import runme
-driver_urls = runme.driver_urls
-session_ids = runme.session_ids
-uname_block = runme.uname_block
+# driver_urls = runme.driver_urls
+# session_ids = runme.session_ids
+
 
 # driver_urls = []
 # uname_block = []
@@ -61,6 +61,9 @@ class icommenter(View):
         return self.give_driver_id()
 
     def give_driver_id(self):
+        drivers = runme.drivers
+        self.drivers = drivers
+        uname_block = runme.uname_block
         try:
             d = (len(uname_block) - 1)
             if d == -1:
@@ -83,9 +86,10 @@ class icommenter(View):
         return self.commentit()
 
     def commentit(self):
-        driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
-        driver.close()
-        driver.session_id = session_ids[self.indexofid]
+#         driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
+#         driver.close()
+#         driver.session_id = session_ids[self.indexofid]
+        driver = self.drivers
         driver.get(self.url)
         sleep(1)
         comments = ['Cool Man', 'Awesome']
