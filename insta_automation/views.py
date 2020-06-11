@@ -108,27 +108,6 @@ class Followers(View):
         return HttpResponse("You Got 1 Genuine Followers")
 
 
-# def flw_count(request):
-#     if request.method == 'POST':
-#         user = request.POST['username']
-#         url = request.POST['url_1']
-#         try:
-#             models.used_by.objects.get(user=user)
-#         except ObjectDoesNotExist:
-#             u = models.used_by.objects.create(user=user)
-#             for i in models.insta_ids.objects.all():
-#                 models.left_ids.objects.create(link=u, username=i.username)
-#         r = requests.get(url).text
-
-#         start = '"edge_followed_by":{"count":'
-#         end = '},"followed_by_viewer"'
-#         followers = r[r.find(start) + len(start):r.rfind(end)]
-
-#         return HttpResponse(followers)
-#     else:
-#         return HttpResponse("Something Went Wrong Check Your Username")
-
-
 def mail_us(request):
     if request.method == 'POST':
         name = request.POST['name']
