@@ -17,8 +17,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from insta_automation import runme
 # driver_urls = runme.driver_urls
 # session_ids = runme.session_ids
-drivers = runme.drivers
-uname_block = runme.uname_block
+# drivers = runme.drivers
+# uname_block = runme.uname_block
 # driver_urls = []
 # uname_block = []
 # session_ids = []
@@ -38,6 +38,9 @@ class Followers(View):
         return self.give_driver_id()
 
     def give_driver_id(self):
+        drivers = runme.drivers
+        self.drivers = drivers
+        uname_block = runme.uname_block
         try:
             c = models.left_ids.objects.filter(link=self.user)
             d = (len(c) - 1)
@@ -64,7 +67,7 @@ class Followers(View):
 #         driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
 #         driver.close()
 #         driver.session_id = session_ids[self.indexofid]
-        driver = drivers[self.indexofid]
+        driver = self.drivers[self.indexofid]
         driver.get(self.url)
         try:
             sleep(1)
