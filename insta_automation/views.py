@@ -40,8 +40,8 @@ class Followers(View):
         self.user = u
         self.username = username
         self.url = url
-        #return HttpResponse("Done !!!")
-        return self.give_driver_id()
+        return HttpResponse("Outdated")
+        # return self.give_driver_id()
 
     def give_driver_id(self):
         drivers = runme.drivers
@@ -51,7 +51,7 @@ class Followers(View):
             c = models.left_ids.objects.filter(link=self.user)
             d = (len(c) - 1)
             if d == -1:
-                return HttpResponse("Our Insta ID's Outdated We Are Updating Them To Give You More")
+                return HttpResponse("Outdated")
             elif d == 0:
                 left_username = c[0].username
                 print(left_username)

@@ -12,7 +12,8 @@ SECRET_KEY = '%7c4!-unn@ui+ajh0x-!xa%_-m5q1#9@++))a4@q31g^iu-zi%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['upgrace.in']
+# ALLOWED_HOSTS = ['upgrace.in']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -44,7 +45,7 @@ ROOT_URLCONF = 'upgrace.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'insta_automation/templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {

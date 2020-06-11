@@ -6,5 +6,5 @@ from django.views.generic import TemplateView
 app_name = 'ihashtag'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='ihashtag/index.html'), name='ihashtag'),
+    path('', TemplateView.as_view(template_name='ihashtag/index.html'), name='index'),
 ]
