@@ -55,45 +55,50 @@ class icommenter(View):
     template_name = 'index.html'
 
     def post(self, *args, **kwargs):
+        take_this_username = self.request.POST['take_this_username']
         url = self.request.POST['url_1']
+        commented_txt = self.request.POST['comment']
+        self.take_this_username = take_this_username
+        self.commented_txt = commented_txt
         self.url = url
-        # return HttpResponse("Done...")
-        return self.give_driver_id()
+        print("here")
+        return HttpResponse("Done...")
+        # return self.give_driver_id()
 
     def give_driver_id(self):
         drivers = runme.drivers
         self.drivers = drivers
         uname_block = runme.uname_block
-        try:
-            d = (len(uname_block) - 1)
-            if d == -1:
-                return HttpResponse("Our Insta ID's Outdated We Are Updating Them To Give You More")
-            elif d == 0:
-                left_username = uname_block[0]
-                print(left_username)
-            else:
-                r = randint(0, d)
-                left_username = uname_block[r]
-                print(left_username)
-        except ValueError:
-            return HttpResponse("Please Try Again...")
+        # try:
+        #     d = (len(uname_block) - 1)
+        #     if d == -1:
+        #         return HttpResponse("Our Insta ID's Outdated We Are Updating Them To Give You More")
+        #     elif d == 0:
+        #         left_username = uname_block[0]
+        #         print(left_username)
+        #     else:
+        #         r = randint(0, d)
+        #         left_username = uname_block[r]
+        #         print(left_username)
+        # except ValueError:
+        #     return HttpResponse("Please Try Again...")
         indexofid = 0
         for ids in uname_block:
-            if left_username == ids:
-                indexofid = uname_block.index(left_username)
-        self.left_username = left_username
+            if take_this_username == ids:
+                indexofid = uname_block.index(take_this_username)
         self.indexofid = indexofid
         return self.commentit()
 
     def commentit(self):
-#         driver = webdriver.Remote(command_executor=driver_urls[self.indexofid], desired_capabilities={})
-#         driver.close()
-#         driver.session_id = session_ids[self.indexofid]
         driver = self.drivers
         driver.get(self.url)
         sleep(1)
-        comments = ['Cool Man', 'Awesome']
-        comment = comments[randint(0, 1)]
+        comment = ''
+        if self.commented_txt is None:
+            comments = ['Cool Man', 'Awesome']
+            comment = comments[randint(0, 1)]
+        else:
+            comment = self.commented_txt
         ctextarea = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="react-root"]/section/main/div/div[1]/article/div[2]/section[3]/div/form/textarea')))
         ActionChains(driver).move_to_element(ctextarea).click(ctextarea).send_keys(comment).send_keys(Keys.ENTER).perform()
         return HttpResponse("Your Post Just Got Commented")

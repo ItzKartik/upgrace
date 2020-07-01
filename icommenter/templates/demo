@@ -128,6 +128,9 @@
 
 </style>
 
+<script src="https://kit.fontawesome.com/ac520e76b0.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
 <!--Main Comments Part-->
 <div class="share_now_con col-md-12 mx-auto text-center position-fixed" style="display: none; z-index: 2000;"
     data-aos="fade-down" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="50">
@@ -171,10 +174,10 @@
                     class="mx-auto far fa-heart"></i>
                     <h6><br>Get<br>Likes</h6>
                 </div></a>
-                <a class="mx-auto col" href="{% url 'insta_automation:index' %}"><div class="mx-auto text-center">
+                <a class="mx-auto col" href="{% url 'icommenter:index' %}"><div class="mx-auto text-center">
                     <i style="font-size: 2.5rem; color: rgb(0, 0, 0);"
                     class="mx-auto far fa-comments"></i>
-                    <h6><br>Give<br>Followers</h6>
+                    <h6><br>Give<br>Comments</h6>
                 </div></a>
                 <a class="mx-auto col" href="{% url 'ihashtag:index' %}"><div class="mx-auto text-center">
                     <i style="font-size: 2.5rem; color: rgb(36, 36, 36);"
@@ -216,9 +219,8 @@
     <div class="col-sm-12 wantmore-part" style="left: 0; display: none;">
         <h1 style="color: #4A00E0; font-weight: 700;" class="you_got"></h1><br>
         <div class="col-md-7 mx-auto text-center" style="padding: 40px;">
-            <h1>Want More Genuine Comments</h1><br>
-            <button class="btn_more_followers btn btn-primary">
-                <a style="color: white !important;" href="">Click Here</a></button>
+            <h1>Want More Genuine Followers</h1><br>
+            <button onclick="check_for_more();" class="btn_more_followers btn btn-primary">Click Here</button>
         </div>
     </div>
 </div>
@@ -253,72 +255,72 @@
     var progress_part = $('.progress-part');
     var more_part = $('.wantmore-part');
     var ad_part = $('.ad-part');
-    var updating = '';
-    var take_this = '';
     let text = ['Bot Reached', 'Your post just got a comment', 'Closing Bot...'];
+    // Main Part Function
 
-    function share_now(){
-        $('.working_part').hide();
-        $('.share_now_con').fadeIn();
-    }
-
-    $(document).ready(function () {
-        $('#post_url').val($.cookie('url'));
-        $('#comment_field').val($.cookie('comment'));
-        if(!!$.cookie('times')){
-            if (parseInt($.cookie('times')) >= 19){
-                $('.working_part').hide();
-                $('.try_other_con').fadeIn();
-            }
-            else if (!!$.cookie('shared')){
-                $.removeCookie('shared');
-            }
-            else{
-                if(parseInt($.cookie('times')) === 4 || parseInt($.cookie('times')) === 9 || parseInt($.cookie('times')) === 14){
-                    console.log($.cookie('times'));
-                    share_now();
-                }
-                else{
-                    
-                }
-            }
-            $('#post_url').val($.cookie('url'));
-            $('#comment_field').val($.cookie('comment'));
-        }
-        else{
-            $.cookie('times', 0);
-        }
-    });
-    
     $('.url_form').on('submit', function (e) {
         e.preventDefault();
 
         $('.btn').prop("disabled", true);
-        
-
         let post_url = $('#post_url').val();
         let comment_field = $('#comment_field').val();
-        $.cookie('url', post_url);
-        $.cookie('comment', comment_field);
-        
+        $.cookie('comment', post_url);
+        $.cookie('url', comment_field);
         container_works(first_part, progress_part);
+        // Animations
         move();
         var updating = setInterval(changeText, 1000);
-        var times = parseInt($.cookie('times'));
-        var take_this = uname[times];
         $('.btn').prop("disabled", false);
-        
+        icommenter();
+    });
+
+    $(document).ready(function () {
+        if (parseInt($.cookie('times')) >= 19) {
+            icommenter();
+        }
+        else if (!!$.cookie('username')) {
+            if (parseInt($.cookie('shared')) === 1) {
+                container_works(first_part, progress_part);
+                icommenter();
+            }
+            else {
+                $('.working_part').hide();
+                $('.share_now_con').fadeIn();
+            }
+        }
+        else {
+            console.log('No User Found');
+        }
+    });
+
+    function check_for_more() {
+        if (parseInt($.cookie('times')) >= 19) {
+            window.location.replace("{% url 'icommenter:index' %}");
+        }
+        else if ((parseInt($.cookie('times')) % 5) == 0) {
+            $('.working_part').hide();
+            $('.share_now_con').fadeIn();
+        }
+        else {
+            icommenter();
+        }
+    }
+
+    
+
+    // AJAX Work
+    function icommenter(){
         $.ajax({
             url: "{% url 'icommenter:icommenter_url' %}",
-            type: "POST",
+            type: 'POST',
             data: {
-                take_this_username: take_this,
-                url_1: post_url,
-                comment: comment_field,
+                take_this_username: ;
+                url_1: $.cookie('url'),
+                comment: $.cookie('comment'),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
-                if (data == "Outdated"){
+                if (data === 'Outdated'){
                     $('.working_part').hide();
                     $('.try_other_con').fadeIn();
                 }
@@ -326,7 +328,12 @@
                     $('.you_got').html('');
                     $('.you_got').append(data);
                     container_works(progress_part, more_part);
-                    $.cookie('times', parseInt($.cookie('times')) + 1);
+                    if (!!$.cookie('times')) {
+                        console.log($.cookie('times', parseInt($.cookie('times')) + 1));
+                    }
+                    else {
+                        $.cookie('times', 1);
+                    }
                 }
             },
             error: function (error) {
@@ -335,7 +342,7 @@
                 error_txt();
             }
         });
-    });
+    }
 
     function error_txt() {
         $('.error_txt').html('');
@@ -379,7 +386,7 @@
     }
 
     function changeText() {
-        if (parseInt(count) == 3) {
+        if (count === 3) {
             clearInterval(updating);
         }
         else {
