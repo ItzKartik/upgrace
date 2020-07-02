@@ -57,8 +57,8 @@ class iliker(View):
     def post(self, *args, **kwargs):
         url = self.request.POST['url_1']
         self.url = url
-        # return HttpResponse("Done...")
-        return self.give_driver_id()
+        return HttpResponse("Done...")
+        # return self.give_driver_id()
 
     def give_driver_id(self):
         drivers = runme.drivers

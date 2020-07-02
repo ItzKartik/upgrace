@@ -194,21 +194,48 @@
                 <h3>For More Genuine Followers</h3>
                 <hr>
                 <div class="row" style="padding: 10px 0px 10px 0px;">
-                    <i onclick="shared('whatsapp');" style="font-size: 3rem; color: green;" class="mx-auto fab fa-whatsapp"></i>
-                    <i onclick="shared('facebook');" style="font-size: 3rem; color: blue;" class="mx-auto fab fa-facebook"></i>
-                    <i onclick="shared('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);" class="mx-auto fab fa-twitter"></i>
-                    <i onclick="shared('linkedin');" style="font-size: 3rem; color: darkblue;" class="mx-auto fab fa-linkedin"></i>
-                    <i onclick="shared('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in" class="mx-auto fa fa-link copyit"></i>
+                    <i onclick="shared_likes('whatsapp');" style="font-size: 3rem; color: green;" class="mx-auto fab fa-whatsapp"></i>
+                    <i onclick="shared_likes('facebook');" style="font-size: 3rem; color: blue;" class="mx-auto fab fa-facebook"></i>
+                    <i onclick="shared_likes('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);" class="mx-auto fab fa-twitter"></i>
+                    <i onclick="shared_likes('linkedin');" style="font-size: 3rem; color: darkblue;" class="mx-auto fab fa-linkedin"></i>
+                    <i onclick="shared_likes('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in" class="mx-auto fa fa-link copyit"></i>
                 </div>
             </div>
             <div class="share_it_now" style="padding: 5px;">
-                <p style="font-size: 20px;">After Sharing Back To The Site And Refresh The Page To Get More</p>
+                <p style="font-size: 20px; color: red;">Refresh The Page To Continue....</p>
             </div>
         </div>
         <script>
             new ClipboardJS('.copyit');
         </script>
     </div>
+    <div class="try_other_con col-md-12 mx-auto text-center position-fixed" style="display: none; z-index: 2000;"
+    data-aos="fade-down" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="50" style="background: transparent;">
+    <div class="card sharenow_box mx-auto text-center"
+        style="top: 50px; width: 20rem; z-index: 2000; color: black; border-radius: 5px;">
+        <div class="card-body mx-auto">
+            <h1 style="color: rgb(85, 0, 255); font-weight: 700;" class="">Try Our<br><h3>Other Free Services</h3></h1>
+            <hr>    
+            <div class="row" style="padding:0px 0px 0px 0px;">
+                <a class="mx-auto col" href="{% url 'icommenter:index' %}"><div class="mx-auto text-center">
+                    <i style="font-size: 2.5rem; color: red;"
+                    class="mx-auto far fa-heart"></i>
+                    <h6><br>Get<br>Comments</h6>
+                </div></a>
+                <a class="mx-auto col" href="{% url 'insta_automation:index' %}"><div class="mx-auto text-center">
+                    <i style="font-size: 2.5rem; color: rgb(0, 0, 0);"
+                    class="mx-auto far fa-comments"></i>
+                    <h6><br>Give<br>Followers</h6>
+                </div></a>
+                <a class="mx-auto col" href="{% url 'ihashtag:index' %}"><div class="mx-auto text-center">
+                    <i style="font-size: 2.5rem; color: rgb(36, 36, 36);"
+                    class="mx-auto fas fa-hashtag"></i>
+                    <h6><br>Generate<br>Hashtags</h6>
+                </div></a>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="working_part fp mx-auto text-center justify-content-center" style="height: 500px; color: black; margin: 150px 0px 150px 0px; left: 0; position: relative; z-index: 9;" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-delay="50">
         <div class="col-sm-12 first_part mx-auto text-center">
             <h2 style="color: red;" class="error_txt"></h2>
@@ -218,7 +245,7 @@
                     <input required id="post_url" name="username" style="padding: 25px; border-radius: 50px" class="form-control fc1" type="text" placeholder="Type Your Insta Username"/>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary">GetFollowers</button>
+                <button type="submit" class="btn getlikes btn-primary">GetLikes</button>
             </form>
         </div>
         <div class="col-sm-12 progress-part" style="left: 0; display: none">
@@ -237,131 +264,204 @@
             <h1 style="color: #4A00E0; font-weight: 700;" class="you_got"></h1><br>
             <div class="col-md-7 mx-auto text-center" style="padding: 40px;">
                 <h1>Want More Genuine Followers</h1><br>
-                <button onclick="check_for_more();" class="btn_more_followers btn btn-primary">Click Here</button>
+                <button class="btn_more_followers btn btn-primary">
+                    <a style="color: white;" href="">Click Here</a></button>
             </div>
         </div>
     </div>
     <script>
+    var uname = [
+            'kalmesh.gpt123',
+            'paryan456',
+            'banajiajay',
+            'akshaysharma9537',
+            'ruhilohariwal',
+            'sritesh009',
+            'abhinashtudu',
+            'harishagarwal90',
+            'azadaslam7',
+            '5arohisingh',
+            'dhirajsaho',
+            'ankit95678',
+            'keshulohariwal',
+            'gulabosaho',
+            '3aceboyz',
+            'aman.gpt876',
+            'rohit.sharma737',
+            'taniya.mirja656',
+            'niraj.saw939'
+    ]
+    var count = 0;
+    var i = 0;
+    var t = 0;
+    var first_part = $('.first_part');
+    var progress_part = $('.progress-part');
+    var more_part = $('.wantmore-part');
+    var ad_part = $('.ad-part');
+    var updating = '';
+    let text = ['Bot Reached', 'Your post just got liked', 'Closing Bot...'];
 
-    function shared(type){
-        $.cookie('shared', 1);
-        var whats_link = 'https://api.whatsapp.com/send?phone=0000000000&text=example';
-        var facebook_link = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com';
-        var linkedin_link = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fcss-tricks.com%2F&text=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&hashtags=css,html';
-        var twitter_ink = 'https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.css-tricks.com%2F&title=CSS-Tricks&summary=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&source=CSS-Tricks';
-        if (type == 'whatsapp'){
-            window.open(whats_link, '_blank');
-            $('.share_it_now').fadeIn();
-        }
-        else if (type == 'facebook'){
-            window.open(facebook_link, '_blank');
-            $('.share_it_now').fadeIn();
-        }
-        else if (type == 'twitter'){
-            window.open(twitter_ink, '_blank');
-            $('.share_it_now').fadeIn();
-        }
-        else if (type == 'linkedin'){
-            window.open(linkedin_link, '_blank');
-            $('.share_it_now').fadeIn();
+    function share_now(){
+        $('.working_part').hide();
+        $('.share_now_con').fadeIn();
+    }
+
+    function try_others(){
+        $('.working_part').hide();
+        $('.try_other_con').fadeIn();
+    }
+
+    $(document).ready(function () {
+        if(!!$.cookie('times_likes')){
+            console.log($.cookie('times_likes'));
+            if (parseInt($.cookie('times_likes')) >= 19){
+                try_others();
+                $.removeCookie('times_likes');
+                $.removeCookie('url_likes');
+            }
+            else if (!!$.cookie('shared_likes')){
+                $.removeCookie('shared_likes');
+            }
+            else{
+                if(parseInt($.cookie('times_likes')) === 4 || parseInt($.cookie('times_likes')) === 9 || parseInt($.cookie('times_likes')) === 14){
+                    console.log($.cookie('times_likes'));
+                    share_now();
+                }
+                else{
+                    
+                }
+            }
+            $('#post_url').val($.cookie('url_likes'));
         }
         else{
-            $('.share_it_now').fadeIn();
+            $.cookie('times_likes', 0);
+        }
+    });
+    
+    $('.iliker').on('submit', function (e) {
+        e.preventDefault();
+
+        $('.getlikes').prop("disabled", true);
+        
+        let url_likes = $('#post_url').val();
+        $.cookie('url_likes', url_likes, { expires: 1 });
+        
+        container_works(first_part, progress_part);
+        move();
+        var updating = setInterval(changeText, 1000);
+        $('.getlikes').prop("disabled", false);
+        
+        $.ajax({
+            url: "{% url 'iliker:iliker_url' %}",
+            type: "POST",
+            data: {
+                url_1: url_likes,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (data) {
+                if (data === 'Outdated'){
+                    $('.working_part').hide();
+                    $('.try_other_con').fadeIn();
+                }
+                else{
+                    $('.you_got').html('');
+                    $('.you_got').append(data);
+                    container_works(progress_part, more_part);
+                    if (!!$.cookie('times_likes')) {
+                        $.cookie('times_likes', parseInt($.cookie('times_likes')) + 1);
+                    }
+                    else {
+                        $.cookie('times_likes', 1, { expires: 1 });
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                container_works(progress_part, first_part);
+                error_txt();
+            }
+        });
+    });
+
+    function error_txt() {
+        $('.error_txt').html('');
+        $('.error_txt').append('Network Problem... Please Try Again Later !!!')
+    }
+
+    function move() {
+        if (i == 0) {
+            i = 1;
+            var elem = document.getElementById("myBar");
+            var count = $(".progress-count");
+            var width = 0;
+            var id = setInterval(frame, 200);
+            function frame() {
+                if (width >= 100) {
+                    count.html('');
+                    count.html(width + "%");
+                    clearInterval(id);
+                    i = 0;
+                } else {
+                    count.html('');
+                    count.html(width + "%");
+                    width = parseInt(width) + 4;
+                    elem.style.width = width + "%";
+                }
+            }
         }
     }
 
-
-    var c, del, gap;
-    var count1 = $('.count1');
-    var count2 = $('.count2');
-    var count3 = $('.count3');
-    var count4 = $('.count4');
     function container_works(first_con, second_con) {
         first_con.fadeOut();
         second_con.fadeIn();
     }
-    function show(cls){
-        cls.css({'display':'block'});
+
+    function show(cls) {
+        cls.css({ 'display': 'block' });
     }
 
-    function hide(cls){
-        cls.css({'display':'none'});
+    function hide(cls) {
+        cls.css({ 'display': 'none' });
     }
 
-    var i = 0;
-    var t = 0;
-    var first_part =  $('.first_part');
-    var progress_part = $('.progress-part');
-    var more_part = $('.wantmore-part');
-    var ad_part = $('.ad-part');
-
-    function move() {
-      if (i == 0) {
-        i = 1;
-        var elem = document.getElementById("myBar");
-        var count = $(".progress-count");
-        var width = 0;
-        var id = setInterval(frame, 400);
-        function frame() {
-          if (width >= 100) {
-            count.html('');
-            count.html(width + "%");
-            clearInterval(id);
-            i = 0;
-          }else {
-              count.html('');
-              count.html(width + "%");
-              width = parseInt(width) + 4;
-              elem.style.width = width + "%";}
+    function changeText() {
+        if (parseInt(count) == 3) {
+            clearInterval(updating);
         }
-      }
+        else {
+            $('.updated_text').fadeOut('slow');
+            $(".update_text").html('<h3 class="updated_text" style="color: #4A00E0; font-weight: 700;">' + text[count] + '</h3>');
+            setTimeout(function () {
+                count < 3 ? count++ : count = 0;
+            }, 500);
+        }
     }
 
-    $('.iliker').on('submit', function(e){
-        e.preventDefault();
-        get_likes()
-    });
-    function get_likes() {
-        move();
-        let text = ['Bot Reached', 'Your Pic Got A Like', 'Your Pic Got A Comment', 'Closing Bot...'];
-        var count = 0;
-        function changeText() {
-            if (count === 4){
-                clearInterval(updating);
-            }
-            else{
-                $('.updated_text').fadeOut('slow');
-                $(".update_text").html('<h3 class="updated_text" style="color: #4A00E0; font-weight: 700;">'+ text[count] +'</h3>');
-                setTimeout(function () {
-                    count < 4 ? count++ : count = 0;
-                }, 1000);
-            }
+    function shared_likes(type) {
+        $.cookie('shared_likes', 1, { expires: 1 });
+        var whats_link = 'https://api.whatsapp.com/send?phone=0000000000&text=example';
+        var facebook_link = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com';
+        var linkedin_link = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fcss-tricks.com%2F&text=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&hashtags=css,html';
+        var twitter_ink = 'https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.css-tricks.com%2F&title=CSS-Tricks&summary=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&source=CSS-Tricks';
+        if (type == 'whatsapp') {
+            window.open(whats_link, '_blank');
+            $('.share_it_now').fadeIn();
         }
-        let form_data = $('#post_url').val();
-        var updating = setInterval(changeText, 1000);
-            $('.btn').prop("disabled", false);
-            $.ajax({
-                url: "{% url 'iliker:iliker_url' %}",
-                type: 'POST',
-                data: {
-                    url_1: form_data,
-                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-                },
-                success: function (data) {
-                    container_works(progress_part, more_part);
-                    $('.you_got').html('');
-                    $('.you_got').append(data);
-                },
-                error: function (error) {
-                    console.log(error);
-                    container_works(progress_part, first_part);
-                    error_txt()
-                }
-            });
-    }
-    function error_txt() {
-        $('.error_txt').html('');
-        $('.error_txt').append('Network Problem... Please Try Again Later !!!')
+        else if (type == 'facebook') {
+            window.open(facebook_link, '_blank');
+            $('.share_it_now').fadeIn();
+        }
+        else if (type == 'twitter') {
+            window.open(twitter_ink, '_blank');
+            $('.share_it_now').fadeIn();
+        }
+        else if (type == 'linkedin') {
+            window.open(linkedin_link, '_blank');
+            $('.share_it_now').fadeIn();
+        }
+        else {
+            $('.share_it_now').fadeIn();
+        }
     }
     </script>
 {% endblock navbar %}

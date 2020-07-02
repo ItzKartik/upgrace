@@ -32,7 +32,13 @@ class Followers(View):
         url = self.request.POST['url_1']
         u = ''
         try:
-            u = models.used_by.objects.get(user=username)
+            u = models.used_by.objects.filter(user=username)
+            if u:
+                pass
+            else:
+                u = models.used_by.objects.create(user=username)
+                for i in models.insta_ids.objects.all():
+                    models.left_ids.objects.create(link=u, username=i.username)
         except ObjectDoesNotExist:
             u = models.used_by.objects.create(user=username)
             for i in models.insta_ids.objects.all():
@@ -40,7 +46,7 @@ class Followers(View):
         self.user = u
         self.username = username
         self.url = url
-        return HttpResponse("Outdated")
+        return HttpResponse("Done")
         # return self.give_driver_id()
 
     def give_driver_id(self):

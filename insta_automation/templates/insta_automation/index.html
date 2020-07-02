@@ -140,15 +140,15 @@
             <h1 style="color: rgb(85, 0, 255); font-weight: 700;" class="">Share It<br><h3>With Your Friends Now</h3></h1>
             <hr>    
             <div class="row" style="padding: 10px 0px 10px 0px;">
-                <i onclick="shared('whatsapp');" style="font-size: 3rem; color: green;"
+                <i onclick="shared_followers('whatsapp');" style="font-size: 3rem; color: green;"
                     class="mx-auto fab fa-whatsapp"></i>
-                <i onclick="shared('facebook');" style="font-size: 3rem; color: blue;"
+                <i onclick="shared_followers('facebook');" style="font-size: 3rem; color: blue;"
                     class="mx-auto fab fa-facebook"></i>
-                <i onclick="shared('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);"
+                <i onclick="shared_followers('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);"
                     class="mx-auto fab fa-twitter"></i>
-                <i onclick="shared('linkedin');" style="font-size: 3rem; color: darkblue;"
+                <i onclick="shared_followers('linkedin');" style="font-size: 3rem; color: darkblue;"
                     class="mx-auto fab fa-linkedin"></i>
-                <i onclick="shared('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in"
+                <i onclick="shared_followers('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in"
                     class="mx-auto fa fa-link copyit"></i>
             </div>
         </div>
@@ -222,7 +222,8 @@
         <h1 style="color: #4A00E0; font-weight: 700;" class="you_got"></h1><br>
         <div class="col-md-7 mx-auto text-center" style="padding: 40px;">
             <h1>Want More Genuine Followers</h1><br>
-            <button onclick="check_for_more();" class="btn_more_followers btn btn-primary">Click Here</button>
+            <button class="btn_more_followers btn btn-primary">
+                <a style="color: white;" href="">Click Here</a></button>
         </div>
     </div>
 </div>
@@ -236,68 +237,64 @@
     var progress_part = $('.progress-part');
     var more_part = $('.wantmore-part');
     var ad_part = $('.ad-part');
+    var updating = '';
     let text = ['Bot Reached', 'Your account has been followed', 'Closing Bot...'];
     // Main Part Function
 
+    function share_now(){
+        $('.working_part').hide();
+        $('.share_now_con').fadeIn();
+    }
+
     $(document).ready(function () {
-        if (parseInt($.cookie('times')) >= 19) {
-            get_followers();
-        }
-        else if (!!$.cookie('username')) {
-            if (parseInt($.cookie('shared')) === 1) {
-                container_works(first_part, progress_part);
-                get_followers();
-            }
-            else {
+        if(!!$.cookie('times_followers')){
+            if (parseInt($.cookie('times_followers')) >= 19){
                 $('.working_part').hide();
-                $('.share_now_con').fadeIn();
+                $('.try_other_con').fadeIn();
+                $.removeCookie('username');
+                $.removeCookie('times_followers');
+                $.removeCookie('url_followers');
             }
+            else if (!!$.cookie('shared_followers')){
+                $.removeCookie('shared_followers');
+            }
+            else{
+                if(parseInt($.cookie('times_followers')) === 4 || parseInt($.cookie('times_followers')) === 9 || parseInt($.cookie('times_followers')) === 14){
+                    console.log($.cookie('times_followers'));
+                    share_now();
+                }
+                else{
+                    
+                }
+            }
+            $('#uname').val($.cookie('username_followers'));
         }
-        else {
-            console.log('No User Found');
+        else{
+            $.cookie('times_followers', 0);
         }
     });
-
-    function check_for_more() {
-        if (parseInt($.cookie('times')) >= 19) {
-            window.location.replace("{% url 'insta_automation:index' %}");
-        }
-        else if ((parseInt($.cookie('times')) % 2) == 0) {
-            window.location.replace("{% url 'insta_automation:index' %}");
-        }
-        else if ((parseInt($.cookie('times')) % 5) == 0) {
-            $('.working_part').hide();
-            $('.share_now_con').fadeIn();
-        }
-        else {
-            get_followers();
-        }
-    }
 
     $('.username_form').on('submit', function (e) {
         e.preventDefault();
 
         $('.btn').prop("disabled", true);
+
         let form_data = $('#uname').val();
         var url_1 = 'https://www.instagram.com/' + form_data;
-        $.cookie('username', form_data);
-        $.cookie('url', url_1);
+        $.cookie('username_followers', form_data, { expires: 1 });
+        $.cookie('url_followers', url_1, { expires: 1 });
+        
         container_works(first_part, progress_part);
-        // Animations
         move();
         var updating = setInterval(changeText, 1000);
         $('.btn').prop("disabled", false);
-        get_followers();
-    });
 
-    // AJAX Work
-    function get_followers(){
         $.ajax({
             url: "{% url 'insta_automation:follow_him' %}",
             type: 'POST',
             data: {
-                url_1: $.cookie('url'),
-                username: $.cookie('username'),
+                url_1: $.cookie('url_followers'),
+                username: $.cookie('username_followers'),
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
@@ -309,11 +306,11 @@
                     $('.you_got').html('');
                     $('.you_got').append(data);
                     container_works(progress_part, more_part);
-                    if (!!$.cookie('times')) {
-                        console.log($.cookie('times', parseInt($.cookie('times')) + 1));
+                    if (!!$.cookie('times_followers')) {
+                        $.cookie('times_followers', parseInt($.cookie('times_followers')) + 1);
                     }
                     else {
-                        $.cookie('times', 1);
+                        $.cookie('times_followers', 1, { expires: 1 });
                     }
                 }
             },
@@ -323,7 +320,7 @@
                 error_txt();
             }
         });
-    }
+    });
 
     function error_txt() {
         $('.error_txt').html('');
@@ -379,8 +376,8 @@
         }
     }
 
-    function shared(type) {
-        $.cookie('shared', 1);
+    function shared_followers(type) {
+        $.cookie('shared_followers', 1, { expires: 1 });
         var whats_link = 'https://api.whatsapp.com/send?phone=0000000000&text=example';
         var facebook_link = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com';
         var linkedin_link = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fcss-tricks.com%2F&text=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&hashtags=css,html';

@@ -137,15 +137,15 @@
             <h1 style="color: rgb(85, 0, 255); font-weight: 700;" class="">Share It<br><h3>With Your Friends</h3></h1>
             <hr>    
             <div class="row" style="padding: 10px 0px 10px 0px;">
-                <i onclick="shared('facebook');" style="font-size: 3rem; color: blue;"
+                <i onclick="shared_comments('facebook');" style="font-size: 3rem; color: blue;"
                     class="mx-auto fab fa-facebook"></i>
-                <i onclick="shared('whatsapp');" style="font-size: 3rem; color: green;"
+                <i onclick="shared_comments('whatsapp');" style="font-size: 3rem; color: green;"
                     class="mx-auto fab fa-whatsapp"></i>
-                <i onclick="shared('linkedin');" style="font-size: 3rem; color: darkblue;"
+                <i onclick="shared_comments('linkedin');" style="font-size: 3rem; color: darkblue;"
                     class="mx-auto fab fa-linkedin"></i>
-                <i onclick="shared('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);"
+                <i onclick="shared_comments('twitter');" style="font-size: 3rem; color: rgb(85, 207, 255);"
                     class="mx-auto fab fa-twitter"></i>
-                <i onclick="shared('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in"
+                <i onclick="shared_comments('link');" style="font-size: 3rem; color: blue;" data-clipboard-text="www.upgrace.in"
                     class="mx-auto fa fa-link copyurl"></i>
             </div>
         </div>
@@ -199,7 +199,7 @@
                     class="form-control fc1" type="text" placeholder="Type the comment you want to be posted" />
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">GetFollowers</button>
+            <button type="submit" class="btn btn-primary">GetComments</button>
         </form>
     </div>
     <div class="col-sm-12 progress-part" style="left: 0; display: none">
@@ -262,31 +262,37 @@
         $('.share_now_con').fadeIn();
     }
 
+    function try_others(){
+        $('.working_part').hide();
+        $('.try_other_con').fadeIn();
+    }
+
     $(document).ready(function () {
-        $('#post_url').val($.cookie('url'));
-        $('#comment_field').val($.cookie('comment'));
-        if(!!$.cookie('times')){
-            if (parseInt($.cookie('times')) >= 19){
-                $('.working_part').hide();
-                $('.try_other_con').fadeIn();
+        if(!!$.cookie('times_comments')){
+            console.log($.cookie('times_comments'));
+            if (parseInt($.cookie('times_comments')) >= 19){
+                try_others();
+                $.removeCookie('comment');
+                $.removeCookie('times_comments');
+                $.removeCookie('url_comments');
             }
-            else if (!!$.cookie('shared')){
-                $.removeCookie('shared');
+            else if (!!$.cookie('shared_comments')){
+                $.removeCookie('shared_comments');
             }
             else{
-                if(parseInt($.cookie('times')) === 4 || parseInt($.cookie('times')) === 9 || parseInt($.cookie('times')) === 14){
-                    console.log($.cookie('times'));
+                if(parseInt($.cookie('times_comments')) === 4 || parseInt($.cookie('times_comments')) === 9 || parseInt($.cookie('times_comments')) === 14){
+                    console.log($.cookie('times_comments'));
                     share_now();
                 }
                 else{
                     
                 }
             }
-            $('#post_url').val($.cookie('url'));
+            $('#post_url').val($.cookie('url_comments'));
             $('#comment_field').val($.cookie('comment'));
         }
         else{
-            $.cookie('times', 0);
+            $.cookie('times_comments', 0);
         }
     });
     
@@ -298,14 +304,14 @@
 
         let post_url = $('#post_url').val();
         let comment_field = $('#comment_field').val();
-        $.cookie('url', post_url);
-        $.cookie('comment', comment_field);
+        $.cookie('url_comments', post_url, { expires: 1 });
+        $.cookie('comment', comment_field, { expires: 1 });
         
         container_works(first_part, progress_part);
         move();
         var updating = setInterval(changeText, 1000);
-        var times = parseInt($.cookie('times'));
-        var take_this = uname[times];
+        var times_comments = parseInt($.cookie('times_comments'));
+        var take_this = uname[times_comments];
         $('.btn').prop("disabled", false);
         
         $.ajax({
@@ -318,7 +324,7 @@
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function (data) {
-                if (data == "Outdated"){
+                if (data === 'Outdated'){
                     $('.working_part').hide();
                     $('.try_other_con').fadeIn();
                 }
@@ -326,7 +332,12 @@
                     $('.you_got').html('');
                     $('.you_got').append(data);
                     container_works(progress_part, more_part);
-                    $.cookie('times', parseInt($.cookie('times')) + 1);
+                    if (!!$.cookie('times_comments')) {
+                        $.cookie('times_comments', parseInt($.cookie('times_comments')) + 1);
+                    }
+                    else {
+                        $.cookie('times_comments', 1);
+                    }
                 }
             },
             error: function (error) {
@@ -391,8 +402,8 @@
         }
     }
 
-    function shared(type) {
-        $.cookie('shared', 1);
+    function shared_comments(type) {
+        $.cookie('shared_comments', 1, { expires: 1 });
         var whats_link = 'https://api.whatsapp.com/send?phone=0000000000&text=example';
         var facebook_link = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fparse.com';
         var linkedin_link = 'https://twitter.com/intent/tweet?url=http%3A%2F%2Fcss-tricks.com%2F&text=Tips%2C+Tricks%2C+and+Techniques+on+using+Cascading+Style+Sheets.&hashtags=css,html';
